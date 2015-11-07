@@ -63,7 +63,7 @@ function decreaseRanking() {
 
 socket.on('playlist-update', function(data){
     musicList = data;
-    // console.log("Playlist update " + data[data.length - 1].title);
+
     renderQueue();
 	updateQueue(data);
 });
