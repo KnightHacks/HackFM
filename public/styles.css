@@ -8,3 +8,38 @@ body {
 h1 {
 	color: #DDC04A;
 }
+
+header {
+	text-align: center;
+}
+
+.wrapper {
+	text-align: center;
+	margin: auto;
+}
+
+.vote_controls button {
+	background: #273441;
+	border: none;
+	font-size: 22px;
+	color: #fff;
+	padding: 15px;
+	margin: 10px;
+}
+.queue_controls {
+	background: rgba(0, 0, 0, 0.5);
+	width: 650px;
+	margin: auto;
+	margin-top: 20px;
+}
+.queue_controls input {
+	border: solid 1px #333;
+	padding: 10px;
+	font-size: 20px;
+}
+.queue_controls button {
+	border: solid 1px #333;
+	padding: 10px;
+	font-size: 20px;
+	background: #fff;
+}
