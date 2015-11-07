@@ -78,3 +78,7 @@ sendYoutube = function() {
     socket.emit('click', input);
     console.log("emit");
 }
+
+socket.on('playlist-update', function(data){
+    console.log("Playlist update " + data);
+});

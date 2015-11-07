@@ -32,6 +32,7 @@ io.on('connection', function(socket){
   socket.on('click', function(data){
       musicList.push(data);
       console.log(musicList.toString());
+      socket.emit('playlist-update', musicList);
   });
 });
 
