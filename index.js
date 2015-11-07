@@ -59,7 +59,7 @@ io.on('connection', function(socket){
 
             console.log("Checking what's coming in");
             console.log(musicList[musicList.length - 1]);
-            socket.emit('playlist-update', musicList);
+            io.sockets.emit('playlist-update', musicList);
         }
       });
 
@@ -73,8 +73,8 @@ io.on('connection', function(socket){
       console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
       if(ranking < -3){
           musicList.shift();
-          socket.emit('new-song', musicList[0].url);
-          socket.emit('playlist-update', musicList);
+          io.sockets.emit('new-song', musicList[0].url);
+          io.sockets.emit('playlist-update', musicList);
 
           ranking = 0;
       }
@@ -82,8 +82,8 @@ io.on('connection', function(socket){
   socket.on('video-done', function(data) {
 	if (musicList[0].url == data.url) {
 		musicList.shift();
-		socket.emit('new-song', musicList[0].url);
-		socket.emit('playlist-update', musicList);
+		io.sockets.emit('new-song', musicList[0].url);
+		io.sockets.emit('playlist-update', musicList);
 	}
   });
 });
