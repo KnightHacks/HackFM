@@ -77,7 +77,7 @@ io.on('connection', function(socket){
   });
   socket.on('video-done', function(data) {
 	if (musicList[0].url == data.url) {
-		musicList.splice(1);
+		musicList.shift(1);
 		socket.emit('new-song', musicList[0].url);
 		socket.emit('playlist-update', musicList);
 	}
