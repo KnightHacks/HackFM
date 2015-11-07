@@ -21,7 +21,8 @@ io.on('connection', function(socket){
     console.log(data);
   });
   socket.on('click', function(data){
-      console.log(data);
+      musicList.push(data);
+      console.log(musicList.toString());
   });
 });
 
