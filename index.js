@@ -72,12 +72,16 @@ io.on('connection', function(socket){
       ranking--;
       console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
       if(ranking < -3){
-          // Switch video
+          musicList.shift();
+          socket.emit('new-song', musicList[0].url);
+          socket.emit('playlist-update', musicList);
+
+          ranking = 0;
       }
   });
   socket.on('video-done', function(data) {
 	if (musicList[0].url == data.url) {
-		musicList.shift(1);
+		musicList.shift();
 		socket.emit('new-song', musicList[0].url);
 		socket.emit('playlist-update', musicList);
 	}
