@@ -50,6 +50,7 @@ function sendYoutube() {
     var input = document.getElementById("m").value;
     socket.emit('click', input);
     console.log("emit");
+    document.getElementById("m").value = "";
 }
 
 
