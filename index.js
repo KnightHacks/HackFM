@@ -42,11 +42,14 @@ io.on('connection', function(socket){
   });
   socket.on('like', function(){
       ranking++;
-      console.log("Increase Ranking\nCurrent Ranking: " + ranking)
+      console.log("Increase Ranking\nCurrent Ranking: " + ranking);
   });
   socket.on('dislike', function(){
       ranking--;
-      console.log("Decrease Ranking\nCurrent Ranking: " + ranking)
+      console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
+      if(ranking < -3){
+          // Switch video
+      }
   });
 });
 
