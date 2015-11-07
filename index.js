@@ -76,9 +76,9 @@ io.on('connection', function(socket){
       }
   });
   socket.on('video-done', function(data) {
-	if (musicList[0] == data) {
+	if (musicList[0].url == data) {
 		musicList.splice(1);
-		socket.emit('new-song', musicList[0]);
+		socket.emit('new-song', musicList[0].url);
 	}
   });
 });
