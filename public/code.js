@@ -54,10 +54,19 @@ function stopVideo() {
 }
 
 // Takes in our URL through button
-sendYoutube = function() {
+function sendYoutube() {
     var input = document.getElementById("m").value;
     socket.emit('click', input);
     console.log("emit");
+}
+
+
+function increaseRanking() {
+    socket.emit('like');
+}
+
+function decreaseRanking() {
+    socket.emit('dislike');
 }
 
 socket.on('playlist-update', function(data){

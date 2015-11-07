@@ -5,7 +5,13 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var bodyParser = require('body-parser');
 
+
+// Stores the list of songs
 var musicList = new Array();
+
+// The ranking for the current song
+// Threshold will be -3
+var ranking = 0;
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static('public'));
@@ -33,6 +39,14 @@ io.on('connection', function(socket){
       musicList.push(data);
       console.log(musicList.toString());
       socket.emit('playlist-update', musicList);
+  });
+  socket.on('like', function(){
+      ranking++;
+      console.log("Increase Ranking\nCurrent Ranking: " + ranking)
+  });
+  socket.on('dislike', function(){
+      ranking--;
+      console.log("Decrease Ranking\nCurrent Ranking: " + ranking)
   });
 });
 
