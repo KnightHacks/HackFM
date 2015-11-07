@@ -9,7 +9,6 @@ socket.on('online', function (data) {
   });
 
 setTimeout(function() {
-  socket.emit("hi", {"hello": "test"});
   console.log("emit");
 }, 5000);
 
@@ -59,12 +58,15 @@ function decreaseRanking() {
 }
 
 socket.on('playlist-update', function(data){
-    console.log("Playlist update " + data);
+    musicList = data;
+    // console.log("Playlist update " + data[data.length - 1].title);
+    renderQueue();
 	if (!player) {
+        console.log(data);
 		player = new YT.Player('player', {
 			height: '390',
 			   width: '640',
-			   videoId: data[0].substr(-11),
+			   videoId: data[0].url.substr(-11),
 			   events: {
 				   'onReady': onPlayerReady,
 			   'onStateChange': onPlayerStateChange
@@ -78,15 +80,13 @@ socket.on('playlist-update', function(data){
 			   }
 		});
 	}
-    musicList = data;
-    renderQueue();
 });
 
 function renderQueue() {
   var queue_list = document.getElementById("queue_list");
   var html = "";
   for (var i = 0; i < musicList.length; i++) {
-    html += '<div class="queue_item">' + musicList[i] + '</div>';
+    html += '<div class="queue_item">' + musicList[i].title + '</div>';
   }
   queue_list.innerHTML = html;
 }
