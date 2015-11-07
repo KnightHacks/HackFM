@@ -37,65 +37,64 @@ io.on('connection', function(socket){
   console.log('a user connected');
   socket.emit('online', musicList);
   socket.on('click', function(data){
-      var title, thumbnail;
-      // Parse out the id
-      var video_id = data.split('v=')[1];
-      var ampersandIndex = video_id.indexOf('&');
-      if(ampersandIndex != -1){
-          video_id = video_id.substring(0, ampersandIndex);
+    var title, thumbnail;
+    // Parse out the id
+    var video_id = data.split('v=')[1];
+    var ampersandIndex = video_id.indexOf('&');
+    if(ampersandIndex != -1){
+      video_id = video_id.substring(0, ampersandIndex);
+    }
+
+    // Get video by id
+    youTube.getById(video_id, function(error, result) {
+      if (error) {
+        console.log(error);
       }
+      else {
+        console.log(thumbnail = result.items[0].snippet.thumbnails.default.url);
+        console.log(title = result.items[0].snippet.title);
 
-      // Get video by id
-      youTube.getById(video_id, function(error, result) {
-        if (error) {
-            console.log(error);
-        }
-        else {
-            console.log(thumbnail = result.items[0].snippet.thumbnails.default.url);
-            console.log(title = result.items[0].snippet.title);
+        musicList.push({
+          title: title,
+          url: data,
+          thumbnail: thumbnail
+        });
 
-            musicList.push({
-                title: title,
-                url: data,
-                thumbnail: thumbnail
-            });
-
-            console.log("Checking what's coming in");
-            console.log(musicList[musicList.length - 1]);
-            io.sockets.emit('playlist-update', musicList);
-        }
-      });
+        console.log("Checking what's coming in");
+        console.log(musicList[musicList.length - 1]);
+        io.sockets.emit('playlist-update', musicList);
+      }
+    });
 
   });
   socket.on('like', function(){
-      if (haveUpvoted[socket.id]) return;
-      ranking++;
-      haveUpvoted[socket.id] = true;
-      console.log("Increase Ranking\nCurrent Ranking: " + ranking);
+    if (haveUpvoted[socket.id]) return;
+    ranking++;
+    haveUpvoted[socket.id] = true;
+    console.log("Increase Ranking\nCurrent Ranking: " + ranking);
   });
   socket.on('dislike', function(){
-      if (haveDownvoted[socket.id]) return;
-      ranking--;
-      haveDownvoted[socket.id] = true;
-      console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
-      if(ranking < -3 && musicList.length > 1){
-          musicList.shift();
-          io.sockets.emit('new-song', musicList[0].url);
-          io.sockets.emit('playlist-update', musicList);
-          haveUpvoted = {};
-          haveDownvoted = {};
-
-          ranking = 0;
-      }
+    if (haveDownvoted[socket.id]) return;
+    ranking--;
+    haveDownvoted[socket.id] = true;
+    console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
+    if(ranking < -1 && musicList.length > 1){
+      musicList.shift();
+      io.sockets.emit('new-song', musicList[0].url);
+      io.sockets.emit('playlist-update', musicList);
+      haveUpvoted = {};
+      haveDownvoted = {};
+      ranking = 0;
+    }
   });
   socket.on('video-done', function(data) {
-	if (musicList[0].url == data.url && musicList.length > 1) {
-		musicList.shift();
-		io.sockets.emit('new-song', musicList[0].url);
-		io.sockets.emit('playlist-update', musicList);
-                haveUpvoted = {};
-                haveDownvoted = {};
-	}
+    if (musicList[0].url == data.url && musicList.length > 1) {
+        musicList.shift();
+        io.sockets.emit('new-song', musicList[0].url);
+        io.sockets.emit('playlist-update', musicList);
+        haveUpvoted = {};
+        haveDownvoted = {};
+    }
   });
 });
 

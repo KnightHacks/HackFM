@@ -7,6 +7,7 @@ body {
 
 h1 {
 	color: #DDC04A;
+	font-size: 70px;
 }
 
 header {
@@ -36,10 +37,18 @@ header {
 	border: solid 1px #333;
 	padding: 10px;
 	font-size: 20px;
+	width: 350px;
 }
 .queue_controls button {
 	border: solid 1px #333;
 	padding: 10px;
 	font-size: 20px;
 	background: #fff;
+}
+.queue_controls img {
+	vertical-align: middle;
+	margin-right: 20px;
+}
+.queue_item {
+	text-align: left;
 }
