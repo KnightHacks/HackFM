@@ -19,6 +19,7 @@
   "dependencies": {
     "body-parser": "^1.14.1",
     "express": "^4.10.2",
-    "socket.io": "^1.3.7"
+    "socket.io": "^1.3.7",
+    "youtube-node": "^1.3.0"
   }
 }

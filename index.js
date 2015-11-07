@@ -4,7 +4,11 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var fs = require('fs');
 var bodyParser = require('body-parser');
+var YouTube = require('youtube-node');
 
+// Starts our YouTube
+var youTube = new YouTube();
+youTube.setKey('AIzaSyB1OOSpTREs85WUMvIgJvLTZKye4BVsoFU');
 
 // Stores the list of songs
 var musicList = new Array();
@@ -39,6 +43,25 @@ io.on('connection', function(socket){
       musicList.push(data);
       console.log(musicList.toString());
       socket.emit('playlist-update', musicList);
+
+      // Parse out the id
+      var video_id = data.split('v=')[1];
+      var ampersandIndex = video_id.indexOf('&');
+      if(ampersandIndex != -1){
+          video_id = video_id.substring(0, ampersandIndex);
+      }
+
+      // Get video by id
+      youTube.getById(video_id, function(error, result) {
+        if (error) {
+          console.log(error);
+        }
+        else {
+          console.log(result.items[0].snippet.title);
+
+        }
+      });
+
   });
   socket.on('like', function(){
       ranking++;
