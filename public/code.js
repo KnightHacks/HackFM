@@ -21,6 +21,10 @@ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 var player;
 
+function onYouTubePlayerAPIReady() {
+	updateQueue(musicList);
+}
+
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
 	event.target.playVideo();
@@ -61,7 +65,20 @@ socket.on('playlist-update', function(data){
     musicList = data;
     // console.log("Playlist update " + data[data.length - 1].title);
     renderQueue();
-	if (!player) {
+	updateQueue(data);
+});
+
+function renderQueue() {
+  var queue_list = document.getElementById("queue_list");
+  var html = "";
+  for (var i = 0; i < musicList.length; i++) {
+    html += '<div class="queue_item">' + musicList[i].title + '</div>';
+  }
+  queue_list.innerHTML = html;
+}
+
+function updateQueue(data) {
+	if (!player && data.length > 0) {
         console.log(data);
 		player = new YT.Player('player', {
 			height: '390',
@@ -80,15 +97,6 @@ socket.on('playlist-update', function(data){
 			   }
 		});
 	}
-});
-
-function renderQueue() {
-  var queue_list = document.getElementById("queue_list");
-  var html = "";
-  for (var i = 0; i < musicList.length; i++) {
-    html += '<div class="queue_item">' + musicList[i].title + '</div>';
-  }
-  queue_list.innerHTML = html;
 }
 
 socket.on('new-song', function(data) {
