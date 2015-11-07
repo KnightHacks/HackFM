@@ -79,6 +79,7 @@ io.on('connection', function(socket){
 	if (musicList[0].url == data.url) {
 		musicList.splice(1);
 		socket.emit('new-song', musicList[0].url);
+		socket.emit('playlist-update', musicList);
 	}
   });
 });
