@@ -51,6 +51,10 @@ io.on('connection', function(socket){
           // Switch video
       }
   });
+  socket.on('video-done', function() {
+	musicList.splice(1);
+	socket.emit('new-song', musicList[0]);
+  });
 });
 
 http.listen(3000, function(){

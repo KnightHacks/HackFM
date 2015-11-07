@@ -48,6 +48,8 @@ function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING && !done) {
 		setTimeout(stopVideo, 6000);
 		done = true;
+	} else if (event.data == YT.PlayerState.ENDED) {
+		socket.emit("video-done");
 	}
 }
 function stopVideo() {
@@ -84,3 +86,8 @@ function renderQueue() {
   }
   queue_list.innerHTML = html;
 }
+
+socket.on('new-song', function(data) {
+	var songId = data.substr(-11);
+	player.loadVideoById(songId);
+});
