@@ -71,7 +71,7 @@ function decreaseRanking() {
 }
 
 socket.on('playlist-update', function(data){
-    console.log("Playlist update " + data);
+    console.log("Playlist update " + data[data.length - 1].title);
     musicList = data;
     renderQueue();
 });
@@ -80,7 +80,7 @@ function renderQueue() {
   var queue_list = document.getElementById("queue_list");
   var html = "";
   for (var i = 0; i < musicList.length; i++) {
-    html += '<div class="queue_item">' + musicList[i] + '</div>';
+    html += '<div class="queue_item">' + musicList[i].title + '</div>';
   }
   queue_list.innerHTML = html;
 }
