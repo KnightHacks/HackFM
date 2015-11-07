@@ -19,20 +19,7 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
 var player;
-function onYouTubeIframeAPIReady() {
-	player = new YT.Player('player', {
-		height: '390',
-		   width: '640',
-		   videoId: 'BG6FQYFqGE0',
-		   events: {
-			   'onReady': onPlayerReady,
-		   'onStateChange': onPlayerStateChange
-		   }
-	});
-}
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
@@ -45,8 +32,9 @@ function onPlayerReady(event) {
 var done = false;
 function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING && !done) {
-		setTimeout(stopVideo, 6000);
 		done = true;
+	} else if (event.data == YT.PlayerState.ENDED) {
+		socket.emit("video-done", musicList[0]);
 	}
 }
 function stopVideo() {
@@ -70,9 +58,24 @@ function decreaseRanking() {
 }
 
 socket.on('playlist-update', function(data){
-    console.log("Playlist update " + data[data.length - 1].title);
     musicList = data;
+    // console.log("Playlist update " + data[data.length - 1].title);
     renderQueue();
+	if (!player) {
+        console.log(data);
+		player = new YT.Player('player', {
+			height: '390',
+			   width: '640',
+			   videoId: data[0].url.substr(-11),
+			   events: {
+				   'onReady': onPlayerReady,
+			   'onStateChange': onPlayerStateChange
+			   },
+			   playerVars: {
+				controls: 0
+			   }
+		});
+	}
 });
 
 function renderQueue() {
@@ -83,3 +86,8 @@ function renderQueue() {
   }
   queue_list.innerHTML = html;
 }
+
+socket.on('new-song', function(data) {
+	var songId = data.substr(-11);
+	player.loadVideoById(songId);
+});
