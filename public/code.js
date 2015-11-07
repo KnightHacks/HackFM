@@ -2,7 +2,7 @@ var socket = io();
 var musicList = new Array();
 
 socket.on('online', function (data) {
-    console.log(data.toString());
+    console.log(data);
     socket.emit('my other event', { my: 'data' });
     musicList = data;
   });
