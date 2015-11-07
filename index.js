@@ -71,7 +71,7 @@ io.on('connection', function(socket){
   socket.on('dislike', function(){
       ranking--;
       console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
-      if(ranking < -3){
+      if(ranking < -3 && musicList.length > 1){
           musicList.shift();
           io.sockets.emit('new-song', musicList[0].url);
           io.sockets.emit('playlist-update', musicList);
@@ -80,7 +80,7 @@ io.on('connection', function(socket){
       }
   });
   socket.on('video-done', function(data) {
-	if (musicList[0].url == data.url) {
+	if (musicList[0].url == data.url && musicList.length > 1) {
 		musicList.shift();
 		io.sockets.emit('new-song', musicList[0].url);
 		io.sockets.emit('playlist-update', musicList);
