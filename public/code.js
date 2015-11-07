@@ -70,7 +70,11 @@ socket.on('playlist-update', function(data){
 			   'onStateChange': onPlayerStateChange
 			   },
 			   playerVars: {
-				controls: 0
+				controls: 0,
+				rel: 0,
+				disablekb: 1,
+				iv_load_policy: 3,
+				autoplay: 0
 			   }
 		});
 	}
