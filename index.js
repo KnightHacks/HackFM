@@ -17,6 +17,9 @@ var musicList = new Array();
 // Threshold will be -3
 var ranking = 0;
 
+var haveDownvoted = {};
+var haveUpvoted = {};
+
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(express.static('public'));
 app.get('/', function(req, res){
@@ -65,16 +68,22 @@ io.on('connection', function(socket){
 
   });
   socket.on('like', function(){
+      if (haveUpvoted[socket.id]) return;
       ranking++;
+      haveUpvoted[socket.id] = true;
       console.log("Increase Ranking\nCurrent Ranking: " + ranking);
   });
   socket.on('dislike', function(){
+      if (haveDownvoted[socket.id]) return;
       ranking--;
+      haveDownvoted[socket.id] = true;
       console.log("Decrease Ranking\nCurrent Ranking: " + ranking);
       if(ranking < -3 && musicList.length > 1){
           musicList.shift();
           io.sockets.emit('new-song', musicList[0].url);
           io.sockets.emit('playlist-update', musicList);
+          haveUpvoted = {};
+          haveDownvoted = {};
 
           ranking = 0;
       }
@@ -84,6 +93,8 @@ io.on('connection', function(socket){
 		musicList.shift();
 		io.sockets.emit('new-song', musicList[0].url);
 		io.sockets.emit('playlist-update', musicList);
+                haveUpvoted = {};
+                haveDownvoted = {};
 	}
   });
 });
