@@ -1,0 +1,10 @@
+body {
+	background: #272341;
+	background-image: url(img/space-bg.png);
+	color: #fff;
+	font-family: 'Roboto', sans-serif;
+}
+
+h1 {
+	color: #DDC04A;
+}
