@@ -8,3 +8,7 @@ setTimeout(function() {
   console.log("emit");
 }, 5000);
 
+sendYoutube = function() {
+    socket.emit('click', document.getElementById("m").value);
+    console.log("emit");
+}
