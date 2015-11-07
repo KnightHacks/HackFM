@@ -8,17 +8,19 @@
     <script src="code.js"></script>
   </head>
   <body>
-    <h1>HackFM</h1>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
-
-    <form action="upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="file" id="fileUpload">
-      <input type="submit">
-    </form>
-
-    <div id="player"></div>
+    <header>
+      <h1>HackFM</h1>
+    </header>
+    <div class="wrapper">
+      <div id="player"></div>
+      <div class="vote_controls">
+	<button id="awesomeBtn">Awesome!</button>
+	<button id="lameBtn">Lameee</button>
+      </div>
+      <div class="queue_controls">
+	<input id="m" autocomplete="off" placeholder="http://youtube.com/watch" />
+	<button>Add to queue</button>
+      </div>
+    </div>
   </body>
 </html>
