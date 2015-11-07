@@ -33,12 +33,6 @@ app.post('/api/upload_song', function(req, res) {
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.emit('online', musicList);
-  socket.on('my other event', function (data) {
-    console.log(data);
-  });
-  socket.on("hi", function(data) {
-    console.log(data);
-  });
   socket.on('click', function(data){
       var title, thumbnail;
       // Parse out the id

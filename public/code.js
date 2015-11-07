@@ -9,7 +9,6 @@ socket.on('online', function (data) {
   });
 
 setTimeout(function() {
-  socket.emit("hi", {"hello": "test"});
   console.log("emit");
 }, 5000);
 
