@@ -1,8 +1,12 @@
 var socket = io();
+var musicList = new Array();
+
 socket.on('online', function (data) {
     console.log(data);
     socket.emit('my other event', { my: 'data' });
+    musicList = data;
   });
+
 setTimeout(function() {
   socket.emit("hi", {"hello": "test"});
   console.log("emit");
@@ -49,3 +53,9 @@ function stopVideo() {
 	player.stopVideo();
 }
 
+// Takes in our URL through button
+sendYoutube = function() {
+    var input = document.getElementById("m").value;
+    socket.emit('click', input);
+    console.log("emit");
+}
