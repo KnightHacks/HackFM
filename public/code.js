@@ -46,7 +46,6 @@ function onPlayerReady(event) {
 var done = false;
 function onPlayerStateChange(event) {
 	if (event.data == YT.PlayerState.PLAYING && !done) {
-		setTimeout(stopVideo, 6000);
 		done = true;
 	} else if (event.data == YT.PlayerState.ENDED) {
 		socket.emit("video-done", musicList[0]);
