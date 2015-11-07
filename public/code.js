@@ -20,23 +20,7 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-// 3. This function creates an <iframe> (and YouTube player)
-//    after the API code downloads.
 var player;
-function onYouTubeIframeAPIReady() {
-	player = new YT.Player('player', {
-		height: '390',
-		   width: '640',
-		   videoId: 'BG6FQYFqGE0',
-		   events: {
-			   'onReady': onPlayerReady,
-		   'onStateChange': onPlayerStateChange
-		   },
-		   playerVars: {
-			controls: 0
-		   }
-	});
-}
 
 // 4. The API will call this function when the video player is ready.
 function onPlayerReady(event) {
@@ -76,6 +60,20 @@ function decreaseRanking() {
 
 socket.on('playlist-update', function(data){
     console.log("Playlist update " + data);
+	if (!player) {
+		player = new YT.Player('player', {
+			height: '390',
+			   width: '640',
+			   videoId: data[0].substr(-11),
+			   events: {
+				   'onReady': onPlayerReady,
+			   'onStateChange': onPlayerStateChange
+			   },
+			   playerVars: {
+				controls: 0
+			   }
+		});
+	}
     musicList = data;
     renderQueue();
 });
