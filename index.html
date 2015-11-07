@@ -2,13 +2,21 @@
 <html>
   <head>
     <title>Socket.IO chat</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,500,700,300,400italic,500italic,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="styles.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="code.js"></script>
   </head>
   <body>
+    <h1>HackFM</h1>
     <ul id="messages"></ul>
     <form action="">
       <input id="m" autocomplete="off" /><button>Send</button>
+    </form>
+
+    <form action="upload" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" id="fileUpload">
+      <input type="submit">
     </form>
 
     <div id="player"></div>
