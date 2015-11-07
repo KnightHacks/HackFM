@@ -5,6 +5,7 @@ socket.on('online', function (data) {
     console.log(data);
     socket.emit('my other event', { my: 'data' });
     musicList = data;
+    renderQueue();
   });
 
 setTimeout(function() {
@@ -62,4 +63,15 @@ sendYoutube = function() {
 
 socket.on('playlist-update', function(data){
     console.log("Playlist update " + data);
+    musicList = data;
+    renderQueue();
 });
+
+function renderQueue() {
+  var queue_list = document.getElementById("queue_list");
+  var html = "";
+  for (var i = 0; i < musicList.length; i++) {
+    html += '<div class="queue_item">' + musicList[i] + '</div>';
+  }
+  queue_list.innerHTML = html;
+}
