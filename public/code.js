@@ -49,7 +49,7 @@ function onPlayerStateChange(event) {
 		setTimeout(stopVideo, 6000);
 		done = true;
 	} else if (event.data == YT.PlayerState.ENDED) {
-		socket.emit("video-done");
+		socket.emit("video-done", musicList[0]);
 	}
 }
 function stopVideo() {

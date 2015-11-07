@@ -74,9 +74,11 @@ io.on('connection', function(socket){
           // Switch video
       }
   });
-  socket.on('video-done', function() {
-	musicList.splice(1);
-	socket.emit('new-song', musicList[0]);
+  socket.on('video-done', function(data) {
+	if (musicList[0] == data) {
+		musicList.splice(1);
+		socket.emit('new-song', musicList[0]);
+	}
   });
 });
 
